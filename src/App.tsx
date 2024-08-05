@@ -29,7 +29,7 @@ function App() {
         </div>
       </div>
 
-      <div className=" w-full flex justify-center text-newTxt  ">
+      <div className=" w-[90%] flex justify-center text-newTxt  ">
         <Interface2></Interface2>
       </div>
 
