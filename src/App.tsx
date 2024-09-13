@@ -134,45 +134,45 @@
 
 //           {/* step 5 */}
 //           {formStep === 5 && (
-            // <div className=" space-y-4">
-            //   <div className=" space-y-2">
-            //     <label htmlFor="country">Email*</label>
-            //     <input
-            //       type="email"
-            //       name="country"
-            //       id="country"
-            //       placeholder="Placeholder..."
-            //       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
-            //     />
-            //   </div>
+// <div className=" space-y-4">
+//   <div className=" space-y-2">
+//     <label htmlFor="country">Email*</label>
+//     <input
+//       type="email"
+//       name="country"
+//       id="country"
+//       placeholder="Placeholder..."
+//       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
+//     />
+//   </div>
 
-            //   <div className=" space-y-2">
-            //     <label htmlFor="country">Instagram handle*</label>
-            //     <input
-            //       type="text"
-            //       name="country"
-            //       id="country"
-            //       placeholder="Placeholder..."
-            //       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
-            //     />
-            //   </div>
+//   <div className=" space-y-2">
+//     <label htmlFor="country">Instagram handle*</label>
+//     <input
+//       type="text"
+//       name="country"
+//       id="country"
+//       placeholder="Placeholder..."
+//       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
+//     />
+//   </div>
 
-            //   <div className=" space-y-2">
-            //     <label htmlFor="country">Phone Number*</label>
-            //     <input
-            //       type="text"
-            //       name="country"
-            //       id="country"
-            //       placeholder="Placeholder..."
-            //       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
-            //     />
-            //   </div>
+//   <div className=" space-y-2">
+//     <label htmlFor="country">Phone Number*</label>
+//     <input
+//       type="text"
+//       name="country"
+//       id="country"
+//       placeholder="Placeholder..."
+//       className="border-1 rounded-lg w-full h-9 pl-2 outline-none "
+//     />
+//   </div>
 
-            //   <div className=" space-y-2 relative w-full">
-            //     <label htmlFor="countries">Country*</label>
-            //     <SelectInput setSelectedCountry COUNTRIES={COUNTRIES} />
-            //   </div>
-            // </div>
+//   <div className=" space-y-2 relative w-full">
+//     <label htmlFor="countries">Country*</label>
+//     <SelectInput setSelectedCountry COUNTRIES={COUNTRIES} />
+//   </div>
+// </div>
 //           )}
 
 //           <div
@@ -217,7 +217,6 @@
 
 // export default App;
 
-
 import "../src/styles/App.css";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
@@ -247,12 +246,17 @@ function App() {
 
   const handleNext = () => {
     setLoading(true);
-    const loadingTime = 3000;
+    const loadingTime = 500;
     setTimeout(() => {
       setLoading(false);
       setFormStep(formStep + 1);
       setCompPercentage(completionPercentage + 100 / steps);
     }, loadingTime);
+  };
+
+  const handlePrevious = () => {
+    setFormStep(formStep - 1);
+    setCompPercentage(completionPercentage - 100 / steps);
   };
 
   // Animation variants
@@ -262,20 +266,28 @@ function App() {
       scale: 1,
       opacity: 1,
       x: 0,
-      transition: { type: "spring", stiffness: 50, damping: 30 },
+      transition: {
+        type: "spring",
+        stiffness: 70,
+        damping: 10,
+        delay: 0,
+        duration: 0.5,
+      },
     },
   };
 
   return (
-    <div className="App app-container py-8 w-full h-fit px-20 flex flex-col space-y-16">
-      <div className=" w-[50%] flex flex-col px-36">
+    <div className="App app-container py-8 w-full h-fit px-20 flex flex-col space-y-16 transition-all duration-300">
+      <div className=" w-[50%] flex flex-col px-36 space-y-8">
         <h1 className=" text-2xl font-semibold">SEARCH VEHICLE PART</h1>
-        <div className=" bg-blue-400 w-full p-4 space-y-5">
+        <div className=" bg-blue-400 w-full p-4 space-y-5 rounded-lg ">
           <div className=" rounded-md bg-white w-full h-5 text-white">
             <div
-              className={`bg-blue-700 ${
+              className={`bg-blue-700 transition-all duration-500 ${
                 completionPercentage > 0 ? `  p-[2px]` : " w-0 p-0"
-              } ${completionPercentage === 100 ? "rounded-md" : ""}  text-xs rounded-l-md text-center`}
+              } ${
+                completionPercentage === 100 ? "rounded-md" : ""
+              }  text-xs rounded-l-md text-center`}
               style={{ width: `${completionPercentage}%` }}
             >
               {completionPercentage}%
@@ -404,24 +416,40 @@ function App() {
                 <label htmlFor="countries">Country*</label>
                 <SelectInput setSelectedCountry COUNTRIES={COUNTRIES} />
               </div>
-            {/* </div> */}
+              {/* </div> */}
             </motion.div>
           )}
 
-          <div className={`flex items-center ${completionPercentage > 0 ? "justify-between" : "justify-end"} ${formStep === 5 ? " pt-16" : "pt-2"}`}>
-            {completionPercentage > 0 && (
-              <button className="shadow-md bg-blue-600 hover:bg-blue-700 rounded-lg p-2 px-4 text-white transition-all duration-300 delay-75">
-                PREVIOUS
-              </button>
-            )}
-            <button
-              onClick={() => handleNext()}
-              className="flex items-center space-x-2 shadow-md bg-blue-600 hover:bg-blue-700 rounded-lg p-2 px-4 text-white transition-all duration-300 delay-75"
+          {completionPercentage !== 100 ? (
+            <div
+              className={`flex items-center ${
+                completionPercentage > 0 ? "justify-between" : "justify-end"
+              } ${formStep === 5 ? " pt-16" : "pt-2"}`}
             >
-              <span>NEXT</span>
-              {isLoading && <FaSpinner className="animate-spin" />}
-            </button>
-          </div>
+              {completionPercentage > 0 && (
+                <button
+                  onClick={() => handlePrevious()}
+                  className="shadow-md bg-blue-600 hover:bg-blue-700 rounded-lg p-2 px-4 text-white transition-all duration-300 delay-75"
+                >
+                  PREVIOUS
+                </button>
+              )}
+              <button
+                onClick={() => handleNext()}
+                className="flex items-center space-x-2 shadow-md bg-blue-600 hover:bg-blue-700 rounded-lg p-2 px-4 text-white transition-all duration-300 delay-75"
+              >
+                <span>NEXT</span>
+                {isLoading && <FaSpinner className="animate-spin" />}
+              </button>
+            </div>
+          ) : (
+            <div className=" text-center">
+              <button className=" shadow-md bg-blue-600 hover:bg-blue-700 rounded-lg p-2 px-4 text-white transition-all duration-300 delay-75" onClick={() => window.location.reload()}>
+                {" "}
+                Submit form{" "}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
