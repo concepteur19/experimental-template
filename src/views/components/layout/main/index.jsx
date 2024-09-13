@@ -5,7 +5,7 @@ import StatisticsChart from "./StatisticsChart";
 
 const Main = () => {
   return (
-    <main className="flex flex-col space-y-6 ">
+    <main className="flex flex-col space-y-8 ">
       <StatisticsChart />
 
       <div  className="flex space-x-6">
